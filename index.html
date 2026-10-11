@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Top secret</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3ecfb; --bg2:#e4d4f6; --ink:#3b1f5c; --soft:#6b4a8f; --accent:#7b3fc4; --card:#fffafe; --heart:#8e4fd8;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  background:linear-gradient(160deg,var(--bg),var(--bg2));
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+#hearts{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.h{
+  position:absolute;background:var(--heart);border-radius:50%;opacity:0;
+  animation:up45 linear infinite;
+  will-change:transform,opacity;
+}
+@keyframes up45{
+  0%{transform:translate(0,0) rotate(-8deg);opacity:0}
+  10%{opacity:var(--o)}
+  85%{opacity:var(--o)}
+  100%{transform:translate(120vmax,-120vmax) rotate(10deg);opacity:0}
+}
+main{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 18px}
+.box{
+  width:100%;max-width:420px;background:var(--card);border-radius:28px;padding:34px 26px;text-align:center;
+  box-shadow:0 10px 40px rgba(90,40,150,.18);
+}
+.big{font-size:44px;margin:0 0 4px}
+h1{font-family:'Caveat','Segoe Script',cursive;font-size:40px;line-height:1.1;margin:0 0 6px;color:var(--accent)}
+p.sub{margin:0 0 22px;color:var(--soft)}
+input{
+  width:100%;font:inherit;font-size:18px;text-align:center;padding:14px 16px;border-radius:16px;
+  border:2px solid var(--bg2);background:var(--bg);color:var(--ink);outline:none;
+}
+input:focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px rgba(123,63,196,.25)}
+button{
+  margin-top:14px;width:100%;font:inherit;font-weight:600;font-size:18px;padding:14px;border:0;border-radius:16px;
+  background:var(--accent);color:#fff;cursor:pointer;
+}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#err{min-height:24px;margin:12px 0 0;color:var(--accent);font-weight:600}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+#msg{display:none;max-width:560px;text-align:left}
+#msg h1{text-align:center;font-size:44px;margin-bottom:18px}
+#msg p{margin:0 0 16px;font-size:17px}
+#msg .end{text-align:center;font-family:'Caveat','Segoe Script',cursive;font-size:30px;color:var(--accent);margin:22px 0 0}
+.reveal #login{display:none}
+.reveal #msg{display:block}
+@media (prefers-reduced-motion:reduce){.h{animation:none;opacity:var(--o)}.shake{animation:none}}
+</style>
+</head>
+<body>
+<div id="hearts" aria-hidden="true"></div>
+<main id="app">
+  <section class="box" id="login">
+    <p class="sub">Digite a senha pra abrir</p>
+    <input id="pw" type="text" style="-webkit-text-security:disc" placeholder="Senha" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Senha">
+    <button id="go" type="button">Abrir</button>
+    <p id="err" role="alert"></p>
+  </section>
+
+  <section class="box" id="msg" aria-live="polite">
+    <p>Nossa, você já conseguiu, caramba, isso foi mais rápido do que eu esperava... passou raiva nas coordenadas, né? Olha que legal, eu também... enfim, hoje é o Dia das Crianças, e eu realmente não queria deixar passar isso em branco, principalmente pra você, que pra mim é uma pessoa muito especial.</p>
+    <p>Tenho muito pra falar de você, de características que eu acredito que ninguém nesse mundo tem. Você é engraçada, divertida, estudiosa, esforçada, cuidadosa, paciente (talvez não tanto com o Davi... brincadeira, hehe) e, principalmente, coloca Deus acima de todas as coisas, e pra mim isso é o que mais importa.</p>
+    <p>Espero que no futuro eu tenha inúmeras chances de escrever coisas pra você e falar o quão incrível você é, mas tudo isso se Deus quiser, pois se for pra ser, será.</p>
+    <p>Tomara que isso tenha animado um pouco mais o seu dia, e que você nunca esqueça que é alguém muito especial.</p>
+    <p class="end">Feliz Dia das Crianças! 💜</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  var layer=document.getElementById('hearts');
+  var N=26;
+  for(var i=0;i<N;i++){
+    var s=document.createElement('span');
+    s.className='h';
+    var size=8+Math.random()*28;
+    /* nasce na borda esquerda ou inferior e sobe a 45° */
+    var fromLeft=Math.random()<0.4;
+    s.style.left=fromLeft?'-6vw':(Math.random()*110-5)+'vw';
+    s.style.top=fromLeft?(Math.random()*100)+'vh':'105vh';
+    s.style.width=size+'px';s.style.height=size+'px';
+    s.style.setProperty('--o',(0.12+Math.random()*0.2).toFixed(2));
+    s.style.animationDuration=(16+Math.random()*16)+'s';
+    s.style.animationDelay=(-Math.random()*30)+'s';
+    layer.appendChild(s);
+  }
+
+  var pw=document.getElementById('pw'), err=document.getElementById('err'), box=document.getElementById('login');
+  function norm(v){v=v.toLowerCase();if(v.normalize)v=v.normalize('NFD');return v.replace(/[^a-z]/g,'').replace(/y/g,'i');}
+  function tryOpen(){
+    if(norm(pw.value)==='melina'){
+      document.getElementById('app').classList.add('reveal');
+      window.scrollTo(0,0);
+    }else{
+      err.textContent='relaxe, você consegue, tenta de novo!';
+      box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+      pw.select();
+    }
+  }
+  document.getElementById('go').addEventListener('click',tryOpen);
+  pw.addEventListener('keydown',function(e){if(e.key==='Enter')tryOpen();});
+})();
+</script>
+</body>
+</html>
